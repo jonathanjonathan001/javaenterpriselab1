@@ -2,6 +2,7 @@ package com.example.jakartalab.controller;
 
 import com.example.jakartalab.dto.PersonDto;
 import com.example.jakartalab.entity.Person;
+import com.example.jakartalab.exception.IdNotFoundException;
 import com.example.jakartalab.mapper.PersonMapper;
 import com.example.jakartalab.repository.PersonRepository;
 import jakarta.inject.Inject;
@@ -38,7 +39,7 @@ public class PersonController {
         var person = repository.findOne(id);
         if (person.isPresent())
             return Response.ok().entity(person.get()).build();
-        return Response.status(404).build();
+        throw new IdNotFoundException(("Not found ID: " + id));
     }
 
     @POST
