@@ -49,8 +49,21 @@ public class PersonController {
         return Response.created(URI.create("persons/" + person.getId())).build();
     }
 
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateOne(@PathParam("id") Long id, @Valid Person personUpdate) {
+        var findPerson = repository.findOne(id);
+        if (findPerson.isPresent())
+            repository.updatePerson(personUpdate);
+        else
+            throw new IdNotFoundException("Can't update because id not found, id: " + id);
+    }
+
     @DELETE
     @Path("/{id}")
-    public void deleteOne(@PathParam("id") Long id) { repository.deletePerson(id); }
+    public void deleteOne(@PathParam("id") Long id) {
+        repository.deletePerson(id);
+    }
 
 }

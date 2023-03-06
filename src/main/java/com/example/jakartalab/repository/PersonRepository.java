@@ -39,4 +39,14 @@ public class PersonRepository {
         return (List<Person>) query.getResultList();
     }
 
+    public void updatePerson(Person personUpdate) {
+        Query query = entityManager.createQuery("UPDATE Person p SET p.name = :name WHERE p.id = :id");
+        query.setParameter("id", personUpdate.getId());
+        query.setParameter("name", personUpdate.getName());
+        query.executeUpdate();
+        Query query2 = entityManager.createQuery("UPDATE Person p SET p.cellNumber = :cellNo WHERE p.id = :id");
+        query2.setParameter("id", personUpdate.getId());
+        query2.setParameter("cellNo", personUpdate.getCellNumber());
+        query2.executeUpdate();
+    }
 }
